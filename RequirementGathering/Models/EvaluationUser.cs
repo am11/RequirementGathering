@@ -8,7 +8,7 @@ namespace RequirementGathering.Models
         public int EvaluationId { get; set; }
         public virtual Evaluation Evaluation { get; set; }
 
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         public virtual User User { get; set; }
 
         public bool IsActive { get; set; }
