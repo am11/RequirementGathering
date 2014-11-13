@@ -66,6 +66,18 @@ namespace RequirementGathering.DAL
 
             result = context.SaveChangesAsync().Result;
 
+            var evaluators = new List<User>();
+            for (var i = 1; i <= 20; i++)
+            {
+                var e = new User { Email = "evaluator" + i + "@uta.fi", UserName = "evaluator" + i };
+                userManager.Create(e, "DefaultPasscode!!");
+                userManager.AddToRole(e.Id, "Evaluator");
+                evaluators.Add(e);
+            }
+
+
+            context.SaveChanges();
+
             // Seed Evaluations
 
             var xPhone = new Product { Name = "XPhone", Description = "This is the description for xPhone", OwnerId = eija.Id };
@@ -137,6 +149,20 @@ namespace RequirementGathering.DAL
 
             result = context.SaveChangesAsync().Result;
 
+
+            //Seed EvaluationInvitedUsers
+            foreach (var eva in evaluations)
+            {
+                foreach (var ivtuser in evaluators)
+                {
+                    context.EvaluationUsers.Add(
+                        new EvaluationUser { UserId = ivtuser.Id, EvaluationId = eva.Id });
+                }
+            }
+
+            context.SaveChanges();
+
+
             // Seed Ratings
             var ratings = new List<Rating>();
 
@@ -147,7 +173,7 @@ namespace RequirementGathering.DAL
                 var attributesCount = evaluationAttributes.Count;
                 var evaluationAttribute1 = evaluationAttributes[random.Next(attributesCount)];
                 var evaluationAttribute2 = evaluationAttributes[random.Next(attributesCount)];
-                var user = users[random.Next(users.Count)];
+                var user = evaluators[random.Next(evaluators.Count)];
 
                 ratings.Add(
                     new Rating

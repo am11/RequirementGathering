@@ -1,4 +1,7 @@
 ﻿using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security;
 
 namespace RequirementGathering.Controllers
 {
@@ -24,10 +27,9 @@ namespace RequirementGathering.Controllers
         }
 
         [Authorize]
-        public ActionResult Dashboard()
+        public ActionResult Dashboard(string userEmail)
         {
             ViewBag.Message = "Your dashboard page.";
-
             return View("Dashboard", "~/Views/Shared/_AuthorizedLayout.cshtml");
         }
     }
