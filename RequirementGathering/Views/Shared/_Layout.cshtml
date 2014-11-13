@@ -34,7 +34,9 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    @if (this.User.IsInRole("Researcher"))
+                    @if (this.User.IsInRole("Researcher")
+                        || this.User.IsInRole("Administrator")
+                        || this.User.IsInRole("Evaluator"))
                     {
                         <li class="active">
                             @Html.ActionLink("Dashboard", "Dashboard", "Home")
